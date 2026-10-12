@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Order Confirmed{% endblock %}
+{% block content %}
+<div class="text-center mb-4">
+  <div class="display-1">🎉</div>
+  <h2>Thank you, {{ order.customer_name }}!</h2>
+  <p class="lead">Your order ID is <span class="badge bg-success" id="order-id">{{ order.order_code }}</span></p>
+</div>
+<div class="card card-body shadow-sm mx-auto" style="max-width:640px">
+  <p class="mb-1"><strong>Phone:</strong> {{ order.phone }}</p>
+  <p><strong>Delivery address:</strong> {{ order.address }}</p>
+  <ul class="list-group list-group-flush mb-2">
+    {% for i in items %}
+    <li class="list-group-item d-flex justify-content-between">
+      <span>{{ i.item_name }} × {{ i.quantity }}</span><span>₹{{ "%.2f"|format(i.unit_price * i.quantity) }}</span>
+    </li>
+    {% endfor %}
+  </ul>
+  <div class="d-flex justify-content-between fw-bold fs-5"><span>Total</span><span>₹{{ "%.2f"|format(order.total) }}</span></div>
+  <p class="text-muted small mt-3 mb-0">Demo order &mdash; no payment was collected.</p>
+</div>
+<div class="text-center mt-4">
+  <a class="btn btn-brand" href="{{ url_for('index') }}">Order more</a>
+  <a class="btn btn-outline-secondary" href="{{ url_for('orders') }}">View order history</a>
+</div>
+{% endblock %}

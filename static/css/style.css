@@ -1,0 +1,9 @@
+:root { --brand: #e8590c; --brand-dark: #c74a08; }
+body { background: #fff8f2; }
+.brand-nav { background: var(--brand); }
+.hero { background: linear-gradient(135deg, #e8590c, #f59f00); }
+.btn-brand { background: var(--brand); color: #fff; border: none; }
+.btn-brand:hover { background: var(--brand-dark); color: #fff; }
+.food-card { border: none; border-radius: 1rem; overflow: hidden; transition: transform .15s; }
+.food-card:hover { transform: translateY(-4px); }
+.food-img { font-size: 4rem; text-align: center; padding: 1.2rem 0; background: linear-gradient(135deg, #ffe8cc, #fff3bf); }

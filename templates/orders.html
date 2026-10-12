@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Order History{% endblock %}
+{% block content %}
+<h2 class="mb-3">📜 Order History</h2>
+{% if history %}
+  {% for h in history %}
+  <div class="card shadow-sm mb-3">
+    <div class="card-header d-flex justify-content-between">
+      <strong>{{ h.order.order_code }}</strong><span class="text-muted small">{{ h.order.created_at }} (UTC)</span>
+    </div>
+    <div class="card-body">
+      <p class="mb-1"><strong>{{ h.order.customer_name }}</strong> &bull; {{ h.order.phone }}</p>
+      <p class="text-muted small">{{ h.order.address }}</p>
+      <ul class="mb-2">
+        {% for i in h.order_items %}<li>{{ i.item_name }} × {{ i.quantity }} (₹{{ "%.2f"|format(i.unit_price) }} each)</li>{% endfor %}
+      </ul>
+      <strong>Total: ₹{{ "%.2f"|format(h.order.total) }}</strong>
+    </div>
+  </div>
+  {% endfor %}
+{% else %}
+  <div class="alert alert-info">No orders yet. <a href="{{ url_for('index') }}">Place your first order</a>.</div>
+{% endif %}
+{% endblock %}

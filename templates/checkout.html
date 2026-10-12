@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Checkout{% endblock %}
+{% block content %}
+<h2 class="mb-3">Checkout</h2>
+<div class="alert alert-warning">
+  <strong>Demo payment notice:</strong> This is a college demonstration. No real payment is taken.
+  Please do <u>not</u> enter card, UPI or bank details anywhere. Payment mode: <em>Cash on Delivery (demo)</em>.
+</div>
+<div class="row g-4">
+  <div class="col-lg-7">
+    <form method="post" action="{{ url_for('checkout') }}" class="card card-body shadow-sm" id="checkout-form">
+      <div class="mb-3">
+        <label class="form-label" for="name">Full name</label>
+        <input class="form-control" id="name" name="name" value="{{ form.name }}" required maxlength="60">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="phone">Phone number (10 digits)</label>
+        <input class="form-control" id="phone" name="phone" value="{{ form.phone }}" required
+               inputmode="numeric" maxlength="10" pattern="[6-9][0-9]{9}">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="address">Delivery address</label>
+        <textarea class="form-control" id="address" name="address" rows="3" required minlength="10" maxlength="200">{{ form.address }}</textarea>
+      </div>
+      <button class="btn btn-brand btn-lg" type="submit">Place order (demo)</button>
+    </form>
+  </div>
+  <div class="col-lg-5">
+    <div class="card card-body shadow-sm">
+      <h5>Order summary</h5>
+      <ul class="list-group list-group-flush mb-2">
+        {% for l in lines %}
+        <li class="list-group-item d-flex justify-content-between">
+          <span>{{ l.item.name }} × {{ l.quantity }}</span><span>₹{{ "%.2f"|format(l.subtotal) }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+      <div class="d-flex justify-content-between fw-bold fs-5"><span>Total</span><span>₹{{ "%.2f"|format(total) }}</span></div>
+    </div>
+  </div>
+</div>
+{% endblock %}

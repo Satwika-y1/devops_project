@@ -1,0 +1,13 @@
+# Render Blueprint (free plan). Auto-deploy is OFF so GitHub Actions deploys only after tests pass.
+services:
+  - type: web
+    name: food-ordering-system
+    runtime: docker
+    plan: free
+    autoDeploy: false
+    healthCheckPath: /health
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_PATH
+        value: /tmp/food.db   # ephemeral on free plan - data resets on restart/redeploy

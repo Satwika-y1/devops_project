@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Menu{% endblock %}
+{% block content %}
+<section class="hero text-center text-white rounded-4 p-5 mb-4">
+  <h1 class="display-5 fw-bold">Hungry? Order in minutes.</h1>
+  <p class="lead mb-0">Fresh food, simple ordering. Browse our menu and add your favourites to the cart.</p>
+</section>
+
+<form class="row g-2 mb-4" method="get" action="{{ url_for('index') }}">
+  <div class="col-md-6">
+    <input type="search" name="q" value="{{ search }}" class="form-control" placeholder="Search food..." id="search-box">
+  </div>
+  <div class="col-md-4">
+    <select name="category" class="form-select" id="category-select">
+      <option value="">All categories</option>
+      {% for c in categories %}
+        <option value="{{ c }}" {% if c == selected %}selected{% endif %}>{{ c }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-md-2 d-grid"><button class="btn btn-brand" type="submit">Search</button></div>
+</form>
+
+{% if items %}
+<div class="row g-4">
+  {% for item in items %}
+  <div class="col-12 col-sm-6 col-lg-3">
+    <div class="card food-card h-100 shadow-sm">
+      <div class="food-img">{{ item.emoji }}</div>
+      <div class="card-body d-flex flex-column">
+        <span class="badge bg-light text-dark align-self-start mb-2">{{ item.category }}</span>
+        <h5 class="card-title">{{ item.name }}</h5>
+        <p class="card-text text-muted small flex-grow-1">{{ item.description }}</p>
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="fw-bold fs-5">₹{{ "%.2f"|format(item.price) }}</span>
+          <form method="post" action="{{ url_for('cart_add', item_id=item.id) }}">
+            <button class="btn btn-sm btn-brand" type="submit">Add to cart</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+  <div class="alert alert-info">No food items match your search. <a href="{{ url_for('index') }}">Clear filters</a></div>
+{% endif %}
+{% endblock %}
